@@ -14,7 +14,7 @@ this is a scanner for CVE-2022-42889 (Text4Shell) vulnerability
 > java -jar text4shell-scanner.jar /Path/you/want/to/scan
 ```
 
-RESULT
+Sample Result
 ```
 Scanner for CVE-2022-42889
 User Name : ian
