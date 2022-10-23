@@ -14,6 +14,21 @@ this is a scanner for CVE-2022-42889 (Text4Shell) vulnerability
 > java -jar text4shell-scanner.jar /Path/you/want/to/scan
 ```
 
+RESULT
+```
+Scanner for CVE-2022-42889
+User Name : ian
+OS Name : Mac OS X
+Target paths : [/Users]
+Exclude paths : [/.Trash, /Dropbox, /Library]
+
+Critical! Found vulnerability(CVE-2022-42889)! Path : /Path/~~/org.apache.commons/commons-text/1.9/~~/commons-text-1.9.jar, Version : 1.9
+Critical! Found vulnerability(CVE-2022-42889)! Path : /Path/~~/org.apache.commons/commons-text/1.9/~~/commons-text-1.9-sources.jar, Version : 1.9
+
+### Result ###
+Vulnerable Files are 2
+```
+
 ### Args
 - `--charset`
 - `--output`
