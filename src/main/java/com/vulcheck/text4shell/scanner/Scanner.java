@@ -49,6 +49,7 @@ public class Scanner {
         detector = new Detector(config);
 
         try {
+
             for (String targetPath : config.getTargetPaths()) {
                 File f = new File(targetPath);
 
@@ -58,7 +59,7 @@ public class Scanner {
             throw new RuntimeException(e);
         } finally {
             System.out.println("### Result ###");
-            System.out.println("Vulnerable Files are " + detector.getVulnerableFileCount());
+            System.out.println("Vulnerable Files are " + detector.getVulnerableFileCount() + " exist.");
         }
 
         if (detector.getVulnerableFileCount() > 0) {
@@ -122,17 +123,11 @@ public class Scanner {
     }
 
     private boolean isExcluded(String path) {
-        for (String excludePath : config.getExcludedPathPrefixes()) {
-            if (path.startsWith(excludePath))
-                return true;
+        if (config.getExcludedPathPrefixes().stream().anyMatch(path::startsWith)) {
+            return true;
         }
 
-        for (String excludePattern : config.getExcludedPatterns()) {
-            if (path.contains(excludePattern))
-                return true;
-        }
-
-        return false;
+        return config.getExcludedPatterns().stream().anyMatch(path::matches);
     }
 
     private void printSkipped(File f) {

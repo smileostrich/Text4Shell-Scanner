@@ -6,6 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.IntStream;
 
 public class Config {
 
@@ -31,52 +32,7 @@ public class Config {
     public static Config parse(String[] args) {
         Config config = new Config();
 
-        for (int i=0; i < args.length; i++) {
-            switch (args[i]) {
-                case "--help":
-                    printUsage();
-
-                    System.exit(-1);
-                case "--charset":
-                    validate(args, i, "Charset", "Charset is not specified");
-
-                    config.charset = Charset.forName(args[i++ + 1]);
-
-                    break;
-                case "--exclude-prefix":
-                    validate(args, i, "Exclude path", "Exclude prefix is not specified");
-
-                    String path = args[1 + i++];
-
-                    config.excludedPathPrefixes.add(path);
-
-                    break;
-                case "--exclude-pattern":
-                    validate(args, i, "Pattern", "Exclude pattern is not specified");
-
-                    String pattern = args[1 + i++];
-
-                    config.excludedPatterns.add(pattern);
-
-                    break;
-                default:
-                    if (args[i].startsWith("-"))
-                        throw new IllegalArgumentException("Unknown option: " + args[i]);
-
-                    String targetPath = args[i];
-                    File file = new File(targetPath);
-
-                    if (!file.exists())
-                        throw new IllegalArgumentException("path not found: " + file.getAbsolutePath());
-
-                    if (!file.canRead())
-                        throw new IllegalArgumentException("no permission for " + file.getAbsolutePath());
-
-                    config.targetPaths.add(targetPath);
-
-                    break;
-            }
-        }
+        IntStream.range(0, args.length).forEach(idx -> checkConfig(args, config, idx));
 
         String osName = System.getProperty("os.name");
 
@@ -92,6 +48,53 @@ public class Config {
         System.out.println("Exclude paths : " + config.excludedPatterns);
 
         return config;
+    }
+
+    private static void checkConfig(String[] args, Config config, int i) {
+        switch (args[i]) {
+            case "--help":
+                printUsage();
+
+                System.exit(-1);
+            case "--charset":
+                validate(args, i, "Charset", "Charset is not specified");
+
+                config.charset = Charset.forName(args[1 + i]);
+
+                break;
+            case "--exclude-prefix":
+                validate(args, i, "Exclude path", "Exclude prefix is not specified");
+
+                String path = args[1 + i];
+
+                config.excludedPathPrefixes.add(path);
+
+                break;
+            case "--exclude-pattern":
+                validate(args, i, "Pattern", "Exclude pattern is not specified");
+
+                String pattern = args[1 + i];
+
+                config.excludedPatterns.add(pattern);
+
+                break;
+            default:
+                if (args[i].startsWith("-"))
+                    throw new IllegalArgumentException("Unknown option: " + args[i]);
+
+                String targetPath = args[i];
+                File file = new File(targetPath);
+
+                if (!file.exists())
+                    throw new IllegalArgumentException("path not found: " + file.getAbsolutePath());
+
+                if (!file.canRead())
+                    throw new IllegalArgumentException("no permission for " + file.getAbsolutePath());
+
+                config.targetPaths.add(targetPath);
+
+                break;
+        }
     }
 
     private static void validate(String[] configs, int i, String name, String msg) {
