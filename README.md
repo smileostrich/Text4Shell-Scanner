@@ -1,7 +1,7 @@
 # Scanner for CVE-2022-42889 (Text4Shell)
 
 ## Description
-this is a scanner for CVE-2022-42889 (Text4Shell) vulnerability
+This is a scanner for CVE-2022-42889 (Text4Shell) vulnerability
 
 ## Usage
 ### Step
@@ -26,12 +26,11 @@ Critical! Found vulnerability(CVE-2022-42889)! Path : /Path/~~/org.apache.common
 Critical! Found vulnerability(CVE-2022-42889)! Path : /Path/~~/org.apache.commons/commons-text/1.9/~~/commons-text-1.9-sources.jar, Version : 1.9
 
 ### Result ###
-Vulnerable Files are 2
+Vulnerable Files are 2 exists
 ```
 
 ### Args
 - `--charset`
-- `--output`
 - `--exclude-prefix`
 - `--exclude-pattern`
 - `--help`
